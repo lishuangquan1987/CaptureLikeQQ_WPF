@@ -1,0 +1,156 @@
+﻿<Window x:Class="CaptureLikeQQ_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CaptureLikeQQ_WPF"
+        mc:Ignorable="d"
+        SnapsToDevicePixels="True"
+        Title="MainWindow" Height="150" Width="250" Closing="Window_Closing" Loaded="Window_Loaded"
+        WindowStyle="None" AllowsTransparency="True"  BorderThickness="1" BorderBrush="Red" ResizeMode="NoResize"  WindowStartupLocation="CenterScreen" MouseDown="Window_MouseDown">
+    <Window.Background>
+        <ImageBrush ImageSource="Resources/Beautiful1.jpg">
+        </ImageBrush>
+    </Window.Background>
+    <Window.Resources>
+        <local:DataTransferMultiply x:Key="multiply"></local:DataTransferMultiply>
+        <SolidColorBrush x:Key="titleButtonFillColor" Color="Black" ></SolidColorBrush>
+        <Style TargetType="Button" x:Key="closeButton">
+            <Setter Property="ToolTip" Value="关闭"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Name="ep" Background="{TemplateBinding Background}">
+                            <!--<Ellipse Name="ep" Fill="{TemplateBinding Background}"></Ellipse>-->
+                            <Canvas>
+                                <Line X1="{Binding ElementName=ep, Path=ActualHeight, Converter={StaticResource  multiply}, ConverterParameter=0.25}"
+                                      Y1="{Binding ElementName=ep, Path=ActualWidth, Converter={StaticResource multiply}, ConverterParameter=0.25}"
+                                      X2="{Binding ElementName=ep, Path=ActualHeight, Converter={StaticResource multiply}, ConverterParameter=0.75}"
+                                      Y2="{Binding ElementName=ep, Path=ActualWidth, Converter={StaticResource multiply}, ConverterParameter=0.75}"
+                                      Stroke="{StaticResource titleButtonFillColor}" StrokeThickness="2">
+                                </Line>
+                                <Line X1="{Binding ElementName=ep, Path=ActualHeight, Converter={StaticResource multiply}, ConverterParameter=0.25}"
+                                      Y1="{Binding ElementName=ep, Path=ActualWidth, Converter={StaticResource multiply}, ConverterParameter=0.75}"
+                                      X2="{Binding ElementName=ep, Path=ActualHeight, Converter={StaticResource multiply}, ConverterParameter=0.75}"
+                                      Y2="{Binding ElementName=ep, Path=ActualWidth, Converter={StaticResource multiply}, ConverterParameter=0.25}"
+                                      Stroke="{StaticResource titleButtonFillColor}" StrokeThickness="2">
+                                </Line>
+                            </Canvas>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="ep" Property="Background" Value="Red"></Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Window">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0" Margin="{TemplateBinding Padding}">
+                            <!--设置窗体的阴影效果-->
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="1" Color="{TemplateBinding BorderBrush}" RenderingBias="Performance" BlurRadius="11" Direction="50" Opacity="0.75"/>
+                            </Border.Effect>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                
+                                <!--使用AdornerDecorator装饰ContentPresenter-->
+                                <AdornerDecorator Grid.Row="1">
+                                    <ContentPresenter></ContentPresenter>
+                                </AdornerDecorator>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid >
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="LightBlue" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+
+            </Grid>
+            <Button Height="30" Width="30" Name="btnClose" Click="btnClose_Click"  Background="Transparent" HorizontalAlignment="Right" Style="{StaticResource closeButton}"></Button>
+        </Grid>
+        <Grid Grid.Row="1" Name="gridAbout" Margin="250 0 0 -250" Background="Transparent">
+            <StackPanel Orientation="Vertical" Visibility="Visible" Margin="3">
+                <TextBlock>
+                    <Hyperlink Name="hlAboutReturn" Click="hlAboutReturn_Click">
+                        <Run>返回</Run>
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap">
+                    <Run Foreground="Red">this software is made by tony in 2018!</Run>
+                    <LineBreak></LineBreak>
+                    <Run>QQ:</Run>
+                    <Run Foreground="Red">294388344</Run>
+                    <LineBreak></LineBreak>
+                    <Run>welcome to be friend and communicate with each other</Run>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Name="gridHelp" Margin="250 0 0 -250">
+            <StackPanel Orientation="Vertical"  Margin="3">
+                <TextBlock>
+                   <Hyperlink Name="hlHelpReturn" Click="hlHelpReturn_Click">返回</Hyperlink>
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap">
+                    <Run Foreground="Red">开始截图：</Run>
+                    <Run>按Ctrl+B键或者鼠标点击软件界面的开始截图</Run>
+                    <LineBreak></LineBreak>
+                    <Run Foreground="Red">完成截图：</Run>
+                    <Run>在截图界面用鼠标滑动选取截图大小，弹出保存对话框后保存</Run>
+                    <LineBreak></LineBreak>
+                    <Run Foreground="Red">截取全屏：</Run>
+                    <Run>在截图界面直接按Enter键，弹出保存对话框后保存</Run>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+        <Grid  Grid.Row="1" Name="gridMain" Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <CheckBox IsChecked="True" Grid.Row="0" HorizontalAlignment="Center" Name="cbAutoRun"  Checked="cbAutoRun_Checked" Unchecked="cbAutoRun_Unchecked">开机启动</CheckBox>
+
+            <Label Name="lbMsg" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">截图热键:Ctrl+B</Label>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Margin="5,0,0,0">
+                <Hyperlink Name="hlStartCapture" Click="hlStartCapture_Click">
+                   <Run Text="开始截图"></Run>
+                </Hyperlink>
+                </TextBlock>
+                <TextBlock VerticalAlignment="Center" Margin="70,0,0,0">
+                <Hyperlink Name="hlAbout" Click="hlAbout_Click">
+                   <Run Text="关于"></Run>
+                </Hyperlink>
+                </TextBlock>
+                <TextBlock VerticalAlignment="Center" Margin="70,0,0,0">
+                <Hyperlink Name="hlHelp" Click="hlHelp_Click">
+                   <Run Text="帮助"></Run>
+                </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
